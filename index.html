@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Juliana Guzmán · Data Analyst</title>
+<meta name="description" content="Juliana Guzmán — Analista de Datos Jr. Convierte datos en decisiones que generan valor. Power BI, Looker Studio, SQL, Python y automatización.">
+<meta property="og:title" content="Juliana Guzmán · Data Analyst Jr">
+<meta property="og:description" content="Convierte datos en decisiones que generan valor. Dashboards, automatización y un producto real con IA que puedes probar en vivo.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="next_dashboard.png">
+<meta name="theme-color" content="#080809">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080809; --surface:#0F0F12; --surface-2:#17161B; --elev:#131217;
+  --ink:#F4F1F4; --muted:#B4ADB6; --faint:#6E6770;
+  --accent:#00F0FF; --accent2:#00C4D4; --accent-soft:#06191F; /* alternativas: Fucsia #FF2E9A · Púrpura #A855F7 · Magenta #E0245E */
+  --line:#201E25;
+  --grad:linear-gradient(120deg,#00D4E6,#6FF6FF);
+  --glow:rgba(0,240,255,.22); --shadow:0 24px 60px rgba(0,0,0,.6);
+  --radius:16px; --maxw:1120px; --sbw:252px; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scrollbar-width:none;-ms-overflow-style:none}
+::-webkit-scrollbar{width:0;height:0;display:none}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 40px;width:100%}
+a{color:inherit}
+h1,h2,h3,h4{margin:0;font-family:"Space Grotesk",sans-serif;font-weight:600;line-height:1.1;letter-spacing:-.01em}
+.serif{font-family:"Syne",Georgia,serif}
+.mono{font-family:"IBM Plex Mono",monospace}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.eyebrow b{color:var(--accent);font-weight:600}
+
+/* SIDEBAR */
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--sbw);background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:26px 20px;z-index:70;overflow-y:auto}
+.sb-brand{display:flex;align-items:center;gap:12px;margin-bottom:30px;padding:0 4px}
+.sb-logo{width:48px;height:48px;border-radius:12px;overflow:hidden;flex:none;border:1px solid var(--line)}
+.sb-logo img{width:100%;height:100%;object-fit:cover}
+.sb-brand b{font-family:"Syne",sans-serif;font-size:20px;font-weight:700;display:block;line-height:1.12}
+.sb-brand small{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.12em;color:var(--accent);display:block;margin-top:2px}
+.sb-nav{display:flex;flex-direction:column;gap:3px}
+.sb-link{font-family:"Space Grotesk";font-size:15px;color:var(--muted);text-decoration:none;font-weight:500;padding:11px 14px;border-radius:11px;transition:.15s;display:block}
+.sb-link:hover{color:var(--ink);background:var(--surface-2)}
+.sb-link.active{color:#04141a;background:var(--grad);box-shadow:0 8px 22px rgba(0,240,255,.25)}
+.sb-pt{font-family:"IBM Plex Mono";font-size:10px;letter-spacing:.14em;color:var(--faint);margin:26px 4px 14px}
+.sb-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px;padding:0 4px}
+.sb-row b{font-family:"Space Grotesk";font-size:13px;display:block;line-height:1.1}
+.sb-row small{font-family:"IBM Plex Mono";font-size:8.5px;letter-spacing:.04em;color:var(--muted)}
+.st{font-family:"IBM Plex Mono";font-size:8px;letter-spacing:.06em;padding:3px 7px;border-radius:5px;flex:none;display:flex;align-items:center;gap:5px}
+.st::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor;animation:dotpulse 1.6s ease-in-out infinite}
+.st.on{color:var(--accent);background:var(--accent-soft)}
+.st.cur{color:#E0B463;background:rgba(224,180,99,.14)}
+.sb-bottom{margin-top:auto;display:flex;flex-direction:column;gap:12px;padding-top:18px}
+.ctrls{display:flex;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface-2);color:var(--ink);font-family:"IBM Plex Mono";font-size:12px;font-weight:600;padding:8px 11px;border-radius:9px;cursor:pointer}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.sb-foot{font-family:"IBM Plex Mono";font-size:9px;color:var(--faint);letter-spacing:.03em;line-height:1.6}
+.shell{margin-left:var(--sbw)}
+
+/* TOP RIGHT */
+.topright{position:fixed;top:24px;right:36px;z-index:55;display:flex;align-items:center;gap:18px;font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.12em;color:var(--faint)}
+.topright .open{display:flex;align-items:center;gap:7px;color:var(--accent)}
+.topright .open::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 7px transparent}}
+@keyframes dotpulse{0%,100%{transform:scale(.65);opacity:.55}50%{transform:scale(2);opacity:1}}
+@media(prefers-reduced-motion:reduce){.st::before{animation:none}}
+.topright b{color:var(--ink)}
+.progress{position:fixed;top:0;left:var(--sbw);right:0;height:2px;background:var(--line);z-index:56}
+.progress-fill{height:100%;background:var(--grad);width:25%;transition:width .45s cubic-bezier(.4,0,.2,1)}
+@media(max-width:960px){.progress{left:0}}
+@media(max-width:960px){
+  .sidebar{position:sticky;top:0;width:auto;flex-direction:row;align-items:center;gap:12px;padding:10px 16px;overflow:visible;backdrop-filter:blur(12px);background:color-mix(in srgb,var(--surface) 88%,transparent)}
+  .sb-brand{margin-bottom:0;flex:none}.sb-brand small{display:none}
+  .sb-nav{flex-direction:row;gap:2px;overflow-x:auto;flex:1}.sb-link{padding:8px 11px;font-size:13.5px;white-space:nowrap}
+  .sb-pt,.sb-row{display:none}.sb-bottom{margin-top:0;flex-direction:row;padding:0;flex:none}.sb-foot{display:none}
+  .shell{margin-left:0}.topright{display:none}.wrap{padding:0 20px}
+}
+
+/* SLIDER HORIZONTAL */
+body{overflow:hidden}
+.shell{height:100vh;overflow:hidden}
+.slider{display:flex;height:100vh;width:100%;overflow:hidden}
+.slide{flex:0 0 100%;height:100vh;overflow-y:auto;overflow-x:hidden;padding:72px 40px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.slide > *{width:100%;max-width:var(--maxw)}
+#demooverlay{max-width:none}
+#proyectos{justify-content:flex-start;padding-top:80px}
+footer{display:none}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:860px){.fgrid{grid-template-columns:1fr}}
+@media(max-width:960px){
+  body{overflow:auto}.shell{height:auto;overflow:visible}
+  .slider{display:block;height:auto;overflow:visible}
+  .slide{flex:none;height:auto;padding:44px 20px;display:block;overflow:visible}
+  .slide > *{max-width:none}
+  footer{display:block}
+}
+
+/* HERO */
+.hero h1{font-family:"Syne",sans-serif;font-weight:700;font-size:clamp(31px,4.4vw,56px);line-height:1.2;margin:16px 0 0;max-width:18ch;letter-spacing:-.015em;padding:10px 0 6px;line-height:1.25!important;padding-top:12px!important}
+.hero h1 i{font-style:normal}
+.hero .lead{font-size:16px;color:var(--muted);margin-top:22px;max-width:52ch}
+.term{margin-top:24px;max-width:540px;background:#0b0b0d;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+.term-top{display:flex;align-items:center;gap:7px;padding:10px 14px;background:#131217;border-bottom:1px solid var(--line)}
+.term-top i{width:11px;height:11px;border-radius:50%;display:block}
+.td1{background:#ff5f57}.td2{background:#febc2e}.td3{background:#28c840}
+.term-top span{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--faint);margin-left:8px}
+.term pre{margin:0;padding:16px 18px;font-family:"IBM Plex Mono";font-size:12.5px;line-height:1.9;color:#d9d2da;white-space:pre-wrap}
+.term .p{color:var(--accent)}
+.term .cur{display:inline-block;width:8px;height:14px;background:var(--accent);vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.hbtns{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:"Space Grotesk";font-weight:600;font-size:14.5px;text-decoration:none;padding:13px 22px;border-radius:999px;cursor:pointer;border:1px solid transparent;transition:.15s}
+.btn svg{width:17px;height:17px;flex:none}
+.btn.solid{background:var(--grad);color:#04141a;box-shadow:0 10px 30px rgba(0,240,255,.22)}
+.btn.solid:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn.wa{background:var(--surface-2);color:var(--ink);border:1px solid var(--accent)}.btn.wa:hover{background:var(--accent-soft)}.btn.wa svg{color:#25D366}
+.stats{display:flex;gap:48px;margin-top:28px;flex-wrap:wrap}
+.stat .n{font-family:"Space Grotesk";font-weight:700;font-size:40px;line-height:1}
+.stat .n .suf{color:var(--accent)}
+.stat .l{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+
+/* SECTION HEAD */
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:30px}
+.sec-head .idx{font-family:"IBM Plex Mono";font-size:12px;color:var(--accent);letter-spacing:.1em}
+.sec-head h2{font-family:"Syne",serif;font-size:clamp(30px,4.4vw,48px);font-weight:600}
+.sec-head .note{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--faint);letter-spacing:.08em;text-transform:uppercase}
+.about-grid{display:grid;grid-template-columns:1.25fr .9fr;gap:46px;align-items:center}
+.about-p{font-size:clamp(16px,1.5vw,19px);line-height:1.72;color:var(--muted);max-width:58ch;margin:0}
+.about-p b{color:var(--ink);font-weight:600}
+.about-q{margin:26px 0 0;font-family:"Syne",sans-serif;font-weight:600;font-size:clamp(17px,1.7vw,21px);line-height:1.4;color:var(--ink);border-left:3px solid var(--accent);padding-left:16px}
+.about-cards{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.acard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 15px;transition:.18s}
+.acard:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 10px 26px var(--glow)}
+.acard b{display:block;font-family:"Syne",sans-serif;font-weight:600;font-size:15.5px;color:var(--ink);margin-bottom:4px}
+.acard span{display:block;font-size:12.5px;color:var(--muted);line-height:1.4}
+@media(max-width:960px){.about-grid{grid-template-columns:1fr;gap:26px}}
+
+/* PROJECTS GRID */
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pcard{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.pcard:hover{transform:translateY(-4px);border-color:var(--accent)}
+.pc-img{height:150px;background:var(--surface-2);overflow:hidden;border-bottom:1px solid var(--line)}
+.pc-img img{width:100%;height:100%;object-fit:cover;object-position:top}
+.pc-body{padding:18px 20px;display:flex;flex-direction:column;flex:1}
+.pc-top{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:8px}
+.pnum{font-family:"IBM Plex Mono";font-size:13px;color:var(--accent)}
+.badge{font-family:"IBM Plex Mono";font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);padding:4px 9px;border-radius:999px}
+.badge.g{color:var(--accent);border-color:var(--accent)}
+.pcard h3{font-family:"Space Grotesk";font-size:19px;margin-bottom:3px}
+.pc-sub{font-size:13.5px;color:#C9C3CB;margin-bottom:11px;flex:1}
+.pc-stack{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:11px}
+.pc-stack span{font-family:"IBM Plex Mono";font-size:10.5px;color:var(--muted);background:var(--surface-2);border:1px solid var(--line);padding:4px 8px;border-radius:6px}
+.pc-more{font-family:"IBM Plex Mono";font-size:12px;color:var(--accent);letter-spacing:.06em}
+.pcard.cta{justify-content:center;align-items:flex-start;background:linear-gradient(150deg,var(--accent-soft),var(--surface));padding:26px;min-height:200px}
+.cta-q{font-family:"Syne",serif;font-size:26px;font-weight:600;margin-bottom:10px}
+.pcard.cta p{font-size:13.5px;color:var(--muted);margin:0 0 14px}
+.cta-link{font-family:"Space Grotesk";font-weight:600;color:var(--accent)}
+@media(max-width:900px){.pgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.pgrid{grid-template-columns:1fr}}
+
+/* DEMO */
+.demo-wrap{margin-top:40px;padding-top:36px;border-top:1px solid var(--line)}
+.demo-grid{display:grid;grid-template-columns:1fr 330px;gap:40px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:32px 36px;position:relative;overflow:hidden}
+.demo-grid::before{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 70%)}
+.demo-copy{position:relative;z-index:1}
+.demo-copy h3{font-family:"Space Grotesk";font-size:22px;margin-bottom:10px}
+.demo-copy p{color:var(--muted);font-size:14.5px;margin:0 0 16px;max-width:46ch}
+.demo-steps{list-style:none;padding:0;margin:0 0 16px;display:grid;gap:9px;counter-reset:s}
+.demo-steps li{position:relative;padding-left:28px;font-size:14px}
+.demo-steps li::before{content:counter(s);counter-increment:s;position:absolute;left:0;top:0;width:19px;height:19px;border-radius:50%;background:var(--grad);color:#04141a;font-family:"IBM Plex Mono";font-size:10px;font-weight:600;display:grid;place-items:center}
+.badge-demo{display:inline-flex;align-items:center;gap:7px;font-family:"IBM Plex Mono";font-size:11px;font-weight:600;letter-spacing:.08em;color:#E0B463;background:rgba(224,180,99,.14);border:1px solid rgba(224,180,99,.4);padding:6px 11px;border-radius:999px;margin-bottom:14px}
+.dtags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px}
+.dtags span{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--muted);background:var(--surface-2);border:1px solid var(--line);padding:5px 9px;border-radius:7px}
+.phone{position:relative;z-index:1;justify-self:center;width:290px;height:580px;background:#0b0710;border-radius:38px;padding:11px;box-shadow:0 30px 60px rgba(0,0,0,.5),inset 0 0 0 2px #2a1f2e}
+.phone-wrap{justify-self:center;display:flex;flex-direction:column;align-items:center;gap:11px}
+.phone-exit{width:290px;justify-content:center;padding:9px 12px;font-size:13px}
+.screen{width:100%;height:100%;border-radius:28px;overflow:hidden;background:#fff;position:relative;font-family:"Inter",sans-serif;color:#241a24}
+.scr{position:absolute;inset:0;display:none;flex-direction:column;overflow-y:auto}.scr.on{display:flex}
+.nx-head{background:linear-gradient(135deg,#7E2F61,#4A1D40);color:#fff;padding:16px 16px 14px;flex:none}
+.nx-logo{font-family:"Space Grotesk";font-weight:700;font-size:19px}.nx-logo span{color:#F3C04E}
+.demobar{background:#F3C04E;color:#3a2800;font-family:"IBM Plex Mono";font-size:9px;font-weight:600;text-align:center;padding:4px;flex:none}
+.scr .pad{padding:16px}
+.nx-btn{background:#7E2F61;color:#fff;border:none;border-radius:10px;padding:12px;font-family:"Space Grotesk";font-weight:600;font-size:14px;width:100%;cursor:pointer}
+.nx-btn.sec{background:#fff;color:#7E2F61;border:1.5px solid #7E2F61}
+.nx-h2{font-family:"Space Grotesk";font-weight:600;font-size:15px;margin:2px 0 3px}
+.nx-sub{font-size:11.5px;color:#7a6b74;margin-bottom:12px}
+.acc{display:flex;align-items:center;gap:11px;border:1px solid #ece0e6;border-radius:12px;padding:11px 12px;margin-top:9px;cursor:pointer;background:#fff;transition:.15s}
+.acc:hover{border-color:#7E2F61}
+.ac-ic{flex:none;width:34px;height:34px;border-radius:50%;background:#2b1b28;display:grid;place-items:center;font-size:15px}
+.acc b{font-size:13px;color:#241a24}.ac-s{font-size:10.5px;color:#7a6b74}.ac-ar{margin-left:auto;color:#B5842E;font-size:16px}
+.offer{border:1px solid #ece0e6;border-radius:12px;padding:11px 12px;margin-bottom:9px;cursor:pointer;background:#fff;transition:.15s;display:flex;gap:11px;align-items:center}
+.offer:hover{border-color:#7E2F61}
+.ring{flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-family:"IBM Plex Mono";font-weight:600;font-size:12px;color:#241a24}
+.offer .t{font-weight:600;font-size:13px;line-height:1.2}.offer .m{font-size:11px;color:#7a6b74;margin-top:3px}
+.back{background:none;border:none;color:#fff;font-weight:600;font-size:12.5px;cursor:pointer;padding:0;margin-bottom:8px;font-family:"Inter"}
+.bar{height:7px;border-radius:5px;background:#eee;overflow:hidden;margin:4px 0 9px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#7E2F61,#C65A98)}
+.brk{font-size:11.5px;display:flex;justify-content:space-between;margin-bottom:1px}
+.tip{background:#eef7f3;border:1px solid #cfe9df;border-radius:10px;padding:10px 11px;font-size:11.5px;margin:10px 0;display:none}.tip.on{display:block}.tip b{color:#0C8079}
+.chipflex{display:inline-block;font-family:"IBM Plex Mono";font-size:9.5px;background:#eef7f3;color:#0C8079;border-radius:999px;padding:3px 8px;margin:2px 3px 0 0}
+.done{text-align:center;padding:30px 18px}.done .big{font-size:40px}
+.nxf{width:100%;border:1px solid #e7d5df;border-radius:9px;padding:9px 11px;font-size:12.5px;margin-bottom:8px;background:#f9f2f5;color:#241a24;font-family:"Inter"}
+.eqkpis{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.eqk{background:#f6eef2;border:1px solid #ece0e6;border-radius:10px;padding:9px 11px}
+.eqk b{display:block;font-family:"Space Grotesk";font-size:20px;color:#7E2F61}.eqk span{font-size:10px;color:#7a6b74}
+.eqrow{border:1px solid #ece0e6;border-radius:9px;padding:9px 11px;font-size:12px;margin-bottom:7px;background:#fff;color:#241a24}
+@media(max-width:900px){.demo-grid{grid-template-columns:1fr;gap:26px;padding:24px 20px}}
+.codecard{margin-top:22px;background:#0b0b0d;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.cc-top{display:flex;align-items:center;gap:7px;padding:11px 16px;background:#131217;border-bottom:1px solid var(--line)}
+.cc-dot{width:11px;height:11px;border-radius:50%}.cc-dot.r{background:#ff5f57}.cc-dot.y{background:#febc2e}.cc-dot.g{background:#28c840}
+.cc-file{font-family:"IBM Plex Mono";font-size:12px;color:#8d8692;margin-left:8px}
+.codecard pre{margin:0;padding:18px 20px;overflow-x:auto;font-family:"IBM Plex Mono";font-size:12.5px;line-height:1.65;color:#e6dfe9}
+.codecard .k{color:#5ff4ff}.codecard .c{color:#6b7a8c}.codecard .f{color:#f3c04e}
+
+/* MODAL */
+.modal{position:fixed;inset:0;background:rgba(4,4,6,.82);backdrop-filter:blur(5px);display:none;align-items:flex-start;justify-content:center;z-index:150;padding:40px 20px;overflow-y:auto}
+.modal.open{display:flex}
+.modal-card{background:var(--surface);border:1px solid var(--line);border-radius:20px;max-width:760px;width:100%;padding:34px 38px;box-shadow:0 30px 80px rgba(0,0,0,.7);position:relative;margin:auto}
+.mclose{position:absolute;right:16px;top:16px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);font-size:14px;cursor:pointer}
+.mclose:hover{border-color:var(--accent);color:var(--accent)}
+.m-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.modal-card h2{font-family:"Syne",serif;font-size:30px;margin-bottom:3px}
+.m-sub{color:var(--muted);font-size:15px;margin-bottom:18px}
+.m-gallery{display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
+.mimg{width:100%;border-radius:11px;border:1px solid var(--line);cursor:zoom-in}
+.m-desc{font-size:15.5px;margin:0 0 6px;color:var(--ink)}
+.modal-card h4{font-family:"IBM Plex Mono";font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:18px 0 10px}
+.feats{list-style:none;padding:0;margin:0 0 8px;display:grid;gap:7px}
+.feats li{position:relative;padding-left:23px;font-size:14.5px}.feats li::before{content:"→";position:absolute;left:0;color:var(--accent);font-weight:700}
+.result{background:var(--accent-soft);border-radius:11px;padding:12px 15px;font-size:14.5px;margin:4px 0}
+.tags{display:flex;flex-wrap:wrap;gap:7px}
+.tags span{font-family:"IBM Plex Mono";font-size:12px;color:var(--muted);background:var(--surface-2);border:1px solid var(--line);padding:6px 10px;border-radius:7px}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+
+/* CURRICULUM */
+.cv-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:40px;align-items:start}
+.exp{position:relative;border-left:2px solid var(--line);margin-left:8px;padding-left:28px;display:grid;gap:24px}
+.exp-item{position:relative}
+.exp-item::before{content:"";position:absolute;left:-36px;top:5px;width:13px;height:13px;border-radius:50%;background:var(--grad);box-shadow:0 0 0 4px var(--bg)}
+.exp-item .when{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--accent);letter-spacing:.04em}
+.exp-item h4{font-family:"Space Grotesk";font-size:18px;font-weight:600;margin:4px 0 2px}
+.exp-item .org{font-size:14px;color:var(--muted);margin-bottom:7px}
+.exp-item p{font-size:14px;color:var(--ink);margin:0;max-width:62ch}
+.cvbox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-bottom:18px}
+.cvbox h3{font-family:"IBM Plex Mono";font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.cvbox .ed{margin-bottom:14px}.cvbox .ed:last-child{margin-bottom:0}
+.cvbox .ed b{font-family:"Space Grotesk";font-size:14.5px;display:block}
+.cvbox .ed span{font-size:12.5px;color:var(--muted);font-family:"IBM Plex Mono"}
+.stacklist{display:flex;flex-wrap:wrap;gap:7px}
+.stacklist span{font-family:"IBM Plex Mono";font-size:12px;color:var(--muted);background:var(--surface-2);border:1px solid var(--line);padding:6px 10px;border-radius:7px}
+@media(max-width:860px){.cv-grid{grid-template-columns:1fr}}
+
+/* CONTACT */
+.contact2{display:grid;grid-template-columns:1.3fr .7fr;gap:26px;align-items:start}
+.cform{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:30px 32px}
+.crow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cf{display:flex;flex-direction:column;margin-bottom:16px}
+.cf label{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.cf input,.cf textarea{font-family:"Inter";font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:12px 14px;outline:none;width:100%;transition:border-color .15s}
+.cf input:focus,.cf textarea:focus{border-color:var(--accent)}
+.cf textarea{min-height:120px;resize:vertical}
+.cbig{width:100%;justify-content:center;padding:14px}
+.cside{display:flex;flex-direction:column;gap:14px}
+.cside-card{background:var(--accent-soft);border:1px solid var(--line);border-radius:16px;padding:24px 26px}
+.cside-card h3{font-family:"Syne",serif;font-size:20px;margin-bottom:6px}
+.cside-card p{font-size:13.5px;color:var(--muted);margin:0 0 16px}
+.cside-links{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cside-links .btn{justify-content:center;border:1px solid var(--line);color:var(--ink)}
+.cside-links .btn:hover{border-color:var(--accent);color:var(--accent)}
+@media(max-width:820px){.contact2{grid-template-columns:1fr}.crow{grid-template-columns:1fr}}
+footer{padding:36px 0 70px;color:var(--faint);font-size:12px;text-align:center;font-family:"IBM Plex Mono"}
+
+.demoov{position:fixed;inset:0;background:rgba(4,4,6,.93);backdrop-filter:blur(6px);display:none;z-index:160;overflow-y:auto;padding:46px 24px}
+.demoov.open{display:block}
+.demoov-inner{max-width:900px;margin:0 auto}
+.demo-stack{display:block}
+.demo-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+.shotthumbs{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:16px}
+.stt-label{font-family:"IBM Plex Mono";font-size:10.5px;color:var(--faint);width:100%;letter-spacing:.04em}
+.shotthumbs img{width:76px;height:50px;object-fit:cover;border-radius:7px;border:1px solid var(--line);cursor:zoom-in;transition:.15s}
+.shotthumbs img:hover{border-color:var(--accent);transform:translateY(-2px)}
+.shotcar{background:#0d0c10;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);margin-top:18px}
+.shot-top{display:flex;align-items:center;gap:7px;padding:10px 14px;background:#141318;border-bottom:1px solid var(--line)}
+.shot-url{margin-left:10px;font-family:"IBM Plex Mono";font-size:11px;color:var(--faint);background:#0b0a0e;border:1px solid var(--line);border-radius:6px;padding:3px 10px}
+.shot-view{position:relative;background:#f7f2f5;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;cursor:zoom-in;overflow:hidden}
+.shot-view img{width:100%;height:100%;object-fit:contain;display:block}
+.shot-nav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:none;background:rgba(10,8,12,.5);color:#fff;font-size:22px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:.15s}
+.shot-nav:hover{background:var(--accent);color:#04141a}
+.shot-nav.prev{left:12px}.shot-nav.next{right:12px}
+.shot-zoom{position:absolute;right:12px;bottom:12px;background:rgba(10,8,12,.55);color:#fff;border-radius:7px;padding:4px 9px;font-size:11px;font-family:"IBM Plex Mono";pointer-events:none}
+.shot-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 15px;background:#141318;border-top:1px solid var(--line)}
+.shot-cap{font-size:12.5px;color:var(--muted)}
+.shot-dots{display:flex;gap:7px;flex:none}
+.shot-dots i{width:8px;height:8px;border-radius:50%;background:var(--line);cursor:pointer;display:block}
+.shot-dots i.on{background:var(--accent)}
+@media(max-width:700px){.shot-cap{display:none}}
+.demoov .mclose{position:fixed;top:22px;right:30px;z-index:5}
+.ribbon{position:fixed;left:var(--sbw);right:0;bottom:0;z-index:55;background:var(--grad);overflow:hidden;display:none}
+.ribbon.show{display:block}
+.ribbon-track{display:flex;gap:40px;white-space:nowrap;padding:9px 0;animation:ribbon 32s linear infinite;width:max-content}
+.ribbon-track span{font-family:"IBM Plex Mono";font-size:12px;font-weight:600;letter-spacing:.16em;color:#190010;text-transform:uppercase}
+@keyframes ribbon{to{transform:translateX(-50%)}}
+@media(max-width:960px){.ribbon{left:0}}
+.lb{position:fixed;inset:0;background:rgba(4,4,6,.93);display:none;align-items:center;justify-content:center;z-index:220;padding:22px;cursor:zoom-out}
+.lb.open{display:flex}.lb img{max-width:96vw;max-height:92vh;border-radius:9px}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sb-brand"><div class="sb-logo"><img src="juliana.jpg" alt="Juliana"></div><div><b>Juliana Guzmán</b><small>ANALISTA DE DATOS</small></div></div>
+  <nav class="sb-nav">
+    <a href="#inicio" class="sb-link" data-es="Inicio" data-en="Home">Inicio</a>
+    <a href="#sobre" class="sb-link" data-es="Sobre mí" data-en="About">Sobre mí</a>
+    <a href="#proyectos" class="sb-link" data-es="Proyectos" data-en="Projects">Proyectos</a>
+    <a href="#experiencia" class="sb-link" data-es="Formación" data-en="Education">Formación</a>
+    <a href="#contacto" class="sb-link" data-es="Contacto" data-en="Contact">Contacto</a>
+  </nav>
+  <div class="sb-pt">ÁREAS / SKILLS</div>
+  <div class="sb-row"><div><b data-es="Análisis & BI" data-en="Analytics & BI">Análisis & BI</b><small>POWER BI · LOOKER</small></div><span class="st on">ACTIVO</span></div>
+  <div class="sb-row"><div><b data-es="Automatización" data-en="Automation">Automatización</b><small>APPS SCRIPT · SHEETS</small></div><span class="st on">ACTIVO</span></div>
+  <div class="sb-row"><div><b data-es="Datos & ETL" data-en="Data & ETL">Datos & ETL</b><small>SQL · PYTHON</small></div><span class="st on">ACTIVO</span></div>
+  <div class="sb-row"><div><b data-es="Innovación" data-en="Innovation">Innovación</b><small>IA · NUEVOS RETOS</small></div><span class="st cur" data-es="EN CURSO" data-en="ONGOING">EN CURSO</span></div>
+  <div class="sb-bottom">
+    <div class="ctrls"><button class="chip" id="lang">EN</button></div>
+    <div class="sb-foot">© 2026 JULIANA GUZMÁN · SANTIAGO, CL · REMOTO</div>
+  </div>
+</aside>
+
+<div class="shell">
+<div class="progress"><div class="progress-fill" id="progressfill"></div></div>
+<div class="topright"><span class="open" data-es="BUSCANDO NUEVOS DESAFÍOS" data-en="SEEKING NEW CHALLENGES">BUSCANDO NUEVOS DESAFÍOS</span><span><b id="nc-num">01</b> / 05</span><span>TECLADO ← →</span></div>
+<div class="slider" id="slider">
+
+  <!-- INICIO -->
+  <section class="hero slide" id="inicio">
+    <div class="eyebrow">JULIANA GUZMÁN <b>—</b> SANTIAGO, CHILE</div>
+    <h1 class="serif">Analista de Datos <i class="grad" data-es="y Business Intelligence." data-en="and Business Intelligence.">y Business Intelligence.</i></h1>
+    <p class="lead" data-es="Analista de datos enfocada en transformación, visualización y automatización de procesos. Especializada en la construcción de soluciones analíticas e integración de Inteligencia Artificial para la toma de decisiones basada en datos." data-en="Data analyst focused on transformation, visualization and process automation. Specialized in building analytical solutions and integrating Artificial Intelligence for data-driven decision making.">Analista de datos enfocada en transformación, visualización y automatización de procesos. Especializada en la construcción de soluciones analíticas e integración de Inteligencia Artificial para la toma de decisiones basada en datos.</p>
+    <div class="term">
+      <div class="term-top"><i class="td1"></i><i class="td2"></i><i class="td3"></i><span>juliana@datos — zsh</span></div>
+<pre><span class="p">&gt;</span> desplegando dashboards ... ok
+<span class="p">&gt;</span> conectando API de IA (Gemini) ... ok
+<span class="p">&gt;</span> sistema listo ✓
+<span class="p">&gt;</span> disponible para nuevos desafíos <span class="cur"></span></pre>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n"><span data-count="5">0</span><span class="suf">+</span></div><div class="l" data-es="Proyectos de datos" data-en="Data projects">Proyectos de datos</div></div>
+      <div class="stat"><div class="n"><span data-count="6">0</span><span class="suf">+</span></div><div class="l" data-es="Herramientas" data-en="Tools">Herramientas</div></div>
+      <div class="stat"><div class="n"><span data-count="4">0</span></div><div class="l" data-es="Paneles BI" data-en="BI dashboards">Paneles BI</div></div>
+    </div>
+  </section>
+
+  <!-- SOBRE MÍ -->
+  <section class="sec slide" id="sobre">
+    <div class="wrap">
+      <div class="sec-head"><div><span class="idx">// 02</span><h2 data-es="Sobre mí" data-en="About me">Sobre mí</h2></div><div class="note" data-es="Perfil profesional" data-en="Professional profile">Perfil profesional</div></div>
+      <div class="about-grid">
+        <div>
+          <p class="about-p" data-es="Soy <b>Analista de Datos recién egresada</b> con una fuerte orientación hacia la resolución de problemas y la automatización inteligente. Mi camino en la tecnología se enfoca en conectar el análisis técnico con las necesidades del negocio: desde transformar datos brutos en <b>dashboards estratégicos</b> hasta desarrollar soluciones web que integran la <b>API de IA (Gemini)</b> para optimizar procesos." data-en="I'm a <b>recently graduated Data Analyst</b> with a strong orientation toward problem-solving and intelligent automation. My path in tech focuses on connecting technical analysis with business needs: from turning raw data into <b>strategic dashboards</b> to building web solutions that integrate the <b>AI API (Gemini)</b> to optimize processes.">Soy <b>Analista de Datos recién egresada</b> con una fuerte orientación hacia la resolución de problemas y la automatización inteligente. Mi camino en la tecnología se enfoca en conectar el análisis técnico con las necesidades del negocio: desde transformar datos brutos en <b>dashboards estratégicos</b> hasta desarrollar soluciones web que integran la <b>API de IA (Gemini)</b> para optimizar procesos.</p>
+          <p class="about-q" data-es="&ldquo;Transformo datos operativos en herramientas y decisiones que generan valor.&rdquo;" data-en="&ldquo;I turn operational data into tools and decisions that create value.&rdquo;">&ldquo;Transformo datos operativos en herramientas y decisiones que generan valor.&rdquo;</p>
+        </div>
+        <div class="about-cards">
+          <div class="acard"><b data-es="Meticulosa" data-en="Meticulous">Meticulosa</b><span data-es="Rigor y detalle en cada entrega" data-en="Rigor and detail in every delivery">Rigor y detalle en cada entrega</span></div>
+          <div class="acard"><b data-es="Autodidacta" data-en="Self-taught">Autodidacta</b><span data-es="Aprendizaje autónomo y rápido" data-en="Fast, autonomous learning">Aprendizaje autónomo y rápido</span></div>
+          <div class="acard"><b data-es="Rigor técnico" data-en="Technical rigor">Rigor técnico</b><span data-es="Buenas prácticas en datos y código" data-en="Best practices in data and code">Buenas prácticas en datos y código</span></div>
+          <div class="acard"><b data-es="Visión de negocio" data-en="Business vision">Visión de negocio</b><span data-es="Del dato a la decisión" data-en="From data to decision">Del dato a la decisión</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROYECTOS -->
+  <section class="sec slide" id="proyectos">
+    <div class="sec-head"><div><span class="idx">// 03</span><h2 data-es="Mis Proyectos" data-en="My Projects">Mis Proyectos</h2></div><div class="note">2024 → 2026</div></div>
+    <div class="pgrid" id="pgrid"></div>
+
+    <div class="demoov" id="demooverlay"><div class="demoov-inner">
+      <button class="mclose" onclick="closeDemo()">✕</button>
+      <div class="sec-head" style="margin-bottom:22px"><div><span class="idx mono" style="color:var(--accent)">DEMO EN VIVO</span><h2 style="font-size:clamp(22px,3vw,32px)" data-es="Pruébalo en vivo" data-en="Try it live">Pruébalo en vivo</h2></div></div>
+      <div class="demo-grid">
+        <div class="demo-copy">
+          <div class="badge-demo">● <span data-es="DEMO INTERACTIVA · pruébala tú" data-en="INTERACTIVE DEMO · try it yourself">DEMO INTERACTIVA · pruébala tú</span></div>
+          <h3 data-es="NEXT, funcionando de verdad" data-en="NEXT, actually working">NEXT, funcionando de verdad</h3>
+          <p data-es="Interactúa con la demo: entra como Usuaria, Empresa o Equipo NEXT y recorre el flujo real de la app (datos de ejemplo). O entra a la app en vivo." data-en="Interact with the demo: enter as Jobseeker, Company or NEXT Team and walk through the app's real flow (sample data). Or open the live app.">Interactúa con la demo: entra como Usuaria, Empresa o Equipo NEXT y recorre el flujo real de la app (datos de ejemplo). O entra a la app en vivo.</p>
+          <ol class="demo-steps">
+            <li data-es="Entra como «Usuaria», «Empresa» o «Equipo NEXT»." data-en="Enter as “Jobseeker”, “Company” or “NEXT Team”.">Entra como «Usuaria», «Empresa» o «Equipo NEXT».</li>
+            <li data-es="Abre una oferta y mira su % de compatibilidad." data-en="Open a job and see its match %.">Abre una oferta y mira su % de compatibilidad.</li>
+            <li data-es="Prueba el «Consejo con IA» y postula." data-en="Try the “AI advice” and apply.">Prueba el «Consejo con IA» y postula.</li>
+          </ol>
+          <div class="demo-actions"><a class="btn solid" href="https://nextgooglesitescodigo-1-git-main-juliana-guzmanc.vercel.app/" target="_blank" rel="noopener" data-es="Probar app real ↗" data-en="Try the real app ↗">Probar app real ↗</a></div>
+        </div>
+        <div class="phone-wrap"><button class="btn ghost phone-exit" onclick="closeDemo();openProj('next')" data-es="← Volver a los enlaces de NEXT" data-en="← Back to NEXT links">← Volver a los enlaces de NEXT</button><div class="phone"><div class="screen">
+          <div class="demobar">MODO DEMO · DATOS FICTICIOS</div>
+          <div class="scr on" id="s-login"><div class="pad" style="display:flex;flex-direction:column;flex:1">
+            <div style="text-align:center;margin:2px 0 4px"><img src="next_brand.png" alt="NEXT" style="width:110px;height:110px;border-radius:50%"></div>
+            <div style="font-size:11px;color:#7a6b74;text-align:center;margin:2px 0 12px">Plataforma de inclusión y empleabilidad flexible</div>
+            <div class="nx-h2">¿Cómo quieres entrar?</div><div class="nx-sub">Elige tu tipo de acceso.</div>
+            <div class="acc" onclick="go('s-home')"><div class="ac-ic">👤</div><div><b>Usuaria</b><div class="ac-s">Busco empleo</div></div><div class="ac-ar">›</div></div>
+            <div class="acc" onclick="go('s-empresa')"><div class="ac-ic">💼</div><div><b>Empresa</b><div class="ac-s">Publico ofertas</div></div><div class="ac-ar">›</div></div>
+            <div class="acc" onclick="go('s-equipo')"><div class="ac-ic">🛡️</div><div><b>Equipo NEXT</b><div class="ac-s">Administración</div></div><div class="ac-ar">›</div></div>
+            <div style="font-size:12px;color:#B5842E;font-style:italic;text-align:center;margin-top:12px">Grandes oportunidades, para grandes historias</div>
+          </div></div>
+          <div class="scr" id="s-home"><div class="nx-head"><button class="back" onclick="go('s-login')" data-es="‹ Cambiar usuario" data-en="‹ Change user">‹ Cambiar usuario</button><div class="nx-logo">NE<span>X</span>T</div><div style="font-size:11px;opacity:.9;margin-top:3px">Hola, Camila 👋</div></div><div class="pad"><div class="nx-h2">Tienes 4 trabajos que encajan contigo</div><div class="nx-sub">Ordenados por compatibilidad · Maipú</div><div id="offer-list"></div></div></div>
+          <div class="scr" id="s-detail"><div class="nx-head"><button class="back" onclick="go('s-home')">‹ Volver</button><div class="nx-logo" style="font-size:15px" id="d-ring">92%</div><div id="d-title" style="font-weight:600;margin-top:4px">—</div><div id="d-meta" style="font-size:11px;opacity:.9">—</div></div><div class="pad"><div class="nx-h2" style="font-size:13px">¿Por qué encajas?</div><div id="d-breakdown"></div><div class="tip" id="d-tip"><b>Consejo con IA 🤖</b><br><span id="d-tiptext"></span></div><button class="nx-btn sec" style="margin-bottom:8px" onclick="showTip()">Consejo con IA</button><button class="nx-btn" onclick="go('s-done')">Postular ahora</button></div></div>
+          <div class="scr" id="s-done"><div class="nx-head"><div class="nx-logo">NE<span>X</span>T</div></div><div class="done"><div class="big">🔔</div><div class="nx-h2">¡Postulación enviada!</div><div class="nx-sub">Te avisaremos cada vez que avances de etapa.</div><button class="nx-btn" style="margin-top:12px" onclick="go('s-home')">Ver otras ofertas</button><button class="nx-btn sec" style="margin-top:8px" onclick="go('s-login')">Reiniciar demo</button></div></div>
+          <div class="scr" id="s-empresa"><div class="nx-head"><button class="back" onclick="go('s-login')">‹ Volver</button><div class="nx-logo">NE<span>X</span>T</div><div style="font-size:11px;opacity:.9;margin-top:3px">Portal de empresas</div></div><div class="pad"><div class="nx-h2">Publica una oferta</div><div class="nx-sub">Describe el puesto y NEXT se lo muestra a las candidatas compatibles.</div><input class="nxf" placeholder="Cargo (ej: Asistente administrativa)"><input class="nxf" placeholder="Jornada (part-time, por turnos…)"><input class="nxf" placeholder="Modalidad (remoto, híbrido…)"><input class="nxf" placeholder="Comuna"><button class="nx-btn" onclick="go('s-emp-ok')">Publicar oferta</button></div></div>
+          <div class="scr" id="s-emp-ok"><div class="nx-head"><div class="nx-logo">NE<span>X</span>T</div><div style="font-size:11px;opacity:.9;margin-top:3px">Portal de empresas</div></div><div class="done"><div class="big">✅</div><div class="nx-h2">¡Oferta publicada!</div><div class="nx-sub">La verán las candidatas cuyo perfil encaje. Eligen por lo que saben hacer.</div><button class="nx-btn" style="margin-top:12px" onclick="go('s-login')">Volver al inicio</button></div></div>
+          <div class="scr" id="s-equipo"><div class="nx-head"><button class="back" onclick="go('s-login')">‹ Volver</button><div class="nx-logo">NE<span>X</span>T</div><div style="font-size:11px;opacity:.9;margin-top:3px">Panel del equipo</div></div><div class="pad"><div class="nx-h2">Hola, equipo NEXT 🛡️</div><div class="nx-sub">Resumen (datos de demo)</div><div class="eqkpis"><div class="eqk"><b>128</b><span>Candidatas</span></div><div class="eqk"><b>42</b><span>Ofertas</span></div><div class="eqk"><b>310</b><span>Postulaciones</span></div><div class="eqk"><b>18%</b><span>Fuga</span></div></div><div class="eqrow">📊 Tablero en Looker Studio</div><div class="eqrow">🗂️ Ofertas de web scraping</div><div class="eqrow">🤖 Consultas a la IA (Gemini)</div><div style="font-size:10px;color:#9a8c94;text-align:center;margin-top:10px">Acceso restringido · solo el equipo</div></div></div>
+        </div></div></div>
+      </div>
+      <div class="codecard">
+        <div class="cc-top"><span class="cc-dot r"></span><span class="cc-dot y"></span><span class="cc-dot g"></span><span class="cc-file">MotorMatch.gs · el código detrás del %</span></div>
+<pre><span class="c">// MotorMatch.gs — motor de compatibilidad de NEXT</span>
+<span class="k">function</span> <span class="f">calcularMatch_</span>(perfil, vacante, ctx) {
+  <span class="k">const</span> P = ctx.pesos;  <span class="c">// 40% hab · 25% exp · 20% ubic · 15% dispo</span>
+  <span class="k">const</span> pHab = <span class="f">puntajeHabilidades_</span>(perfil, vacante);
+  <span class="k">const</span> pExp = <span class="f">puntajeExperiencia_</span>(perfil, vacante);
+  <span class="k">const</span> pUbi = <span class="f">puntajeUbicacion_</span>(perfil, vacante);
+  <span class="k">const</span> pDis = <span class="f">puntajeDisponibilidad_</span>(perfil, vacante);
+  <span class="k">return</span> Math.<span class="f">round</span>(pHab*P.habilidades + pExp*P.experiencia + pUbi*P.ubicacion + pDis*P.disponibilidad);
+}</pre>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- EXPERIENCIA / CURRICULUM -->
+  <section class="sec slide" id="experiencia">
+    <div class="sec-head"><div><span class="idx">// 04</span><h2 data-es="Formación y Stack" data-en="Education and Stack">Formación y Stack</h2></div><div class="note" data-es="Educación y herramientas" data-en="Education & tools">Educación y herramientas</div></div>
+    <div class="fgrid">
+        <div class="cvbox"><h3 data-es="Formación" data-en="Education">Formación</h3>
+          <div class="ed"><b data-es="Análisis y Visualización de Datos (Intensivo)" data-en="Data Analysis & Visualization (Intensive)">Análisis y Visualización de Datos (Intensivo)</b><span>Fundación Soy Más · 2025 – Presente</span></div>
+          <div class="ed"><b data-es="Análisis y Visualización de Datos — 100 hrs" data-en="Data Analysis & Visualization — 100 hrs">Análisis y Visualización de Datos — 100 hrs</b><span data-es="FOTEM, El Bosque · 2026 · Alumna Destacada" data-en="FOTEM, El Bosque · 2026 · Top Student">FOTEM, El Bosque · 2026 · Alumna Destacada</span></div>
+          <div class="ed"><b data-es="Alfabetización Digital · Liderazgo" data-en="Digital Literacy · Leadership">Alfabetización Digital · Liderazgo</b><span>Fundación Soy Más · 2026</span></div>
+        </div>
+        <div class="cvbox"><h3 data-es="Stack principal" data-en="Main stack">Stack principal</h3>
+          <div class="stacklist"><span>SQL</span><span>Python</span><span>Power BI</span><span>Looker Studio</span><span>Apps Script</span><span>Google Sheets</span><span>DAX</span><span>Power Query</span><span>Git</span><span>Vercel</span><span>Gemini API</span></div>
+        </div>
+    </div>
+    <a class="btn solid" style="margin-top:22px;align-self:flex-start;width:auto" href="CV_Juliana_Guzman.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 11l5 4 5-4M5 21h14"/></svg> <span data-es="Descargar CV" data-en="Download CV">Descargar CV</span></a>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="sec slide" id="contacto">
+    <div class="sec-head"><div><span class="idx">// 05</span><h2 data-es="Conversemos" data-en="Let's talk">Conversemos</h2></div><div class="note" data-es="Cuéntame tu proyecto o tu búsqueda" data-en="Tell me about your project or search">Cuéntame tu proyecto o tu búsqueda</div></div>
+    <div class="contact2">
+      <form class="cform" id="cform">
+        <div class="crow">
+          <div class="cf"><label data-es="Nombre" data-en="Name">Nombre</label><input name="nombre" required data-ph-es="Tu nombre" data-ph-en="Your name" placeholder="Tu nombre"></div>
+          <div class="cf"><label data-es="Asunto" data-en="Subject">Asunto</label><input name="asunto" data-ph-es="Oferta, proyecto…" data-ph-en="Job, project…" placeholder="Oferta, proyecto…"></div>
+        </div>
+        <div class="cf"><label>Email</label><input name="email" type="email" required data-ph-es="tu@correo.com" data-ph-en="you@email.com" placeholder="tu@correo.com"></div>
+        <div class="cf"><label data-es="Mensaje" data-en="Message">Mensaje</label><textarea name="mensaje" required data-ph-es="Cuéntame en qué puedo ayudar…" data-ph-en="Tell me how I can help…" placeholder="Cuéntame en qué puedo ayudar…"></textarea></div>
+        <button class="btn solid cbig" type="submit" data-es="Enviar mensaje →" data-en="Send message →">Enviar mensaje →</button>
+      </form>
+      <aside class="cside">
+        <div class="cside-card">
+          <h3 data-es="¿Hablamos directo?" data-en="Prefer a direct chat?">¿Hablamos directo?</h3>
+          <p data-es="Respondo rápido por WhatsApp o correo." data-en="I reply quickly by WhatsApp or email.">Respondo rápido por WhatsApp o correo.</p>
+          <a class="btn wa cbig" href="https://wa.me/56939494024" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.74.46 3.45 1.33 4.95L2 22l5.3-1.39a9.86 9.86 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.44 9.9-9.9 0-2.64-1.03-5.13-2.9-7A9.82 9.82 0 0 0 12.04 2zm0 1.8c2.17 0 4.2.85 5.74 2.38a8.06 8.06 0 0 1 2.38 5.72c0 4.48-3.64 8.12-8.12 8.12-1.5 0-2.97-.4-4.25-1.17l-.3-.18-3.15.83.84-3.07-.2-.32a8.07 8.07 0 0 1-1.24-4.32c0-4.48 3.64-8.12 8.1-8.12zm4.69 11.47c-.08-.13-.29-.21-.6-.37-.31-.16-1.84-.91-2.13-1.01-.29-.11-.5-.16-.71.16-.21.31-.81 1.01-1 1.22-.18.21-.37.23-.68.08-.31-.16-1.31-.48-2.5-1.54-.92-.82-1.55-1.84-1.73-2.15-.18-.31-.02-.48.14-.63.14-.14.31-.37.47-.55.16-.18.21-.31.31-.52.11-.21.05-.39-.03-.55-.08-.16-.71-1.71-.97-2.34-.26-.62-.52-.53-.71-.54l-.6-.01c-.21 0-.55.08-.84.39-.29.31-1.1 1.08-1.1 2.63 0 1.55 1.13 3.05 1.29 3.26.16.21 2.22 3.39 5.38 4.76.75.32 1.34.52 1.8.66.76.24 1.44.21 1.98.13.6-.09 1.84-.75 2.1-1.48.26-.73.26-1.35.18-1.48z"/></svg> <span data-es="Escríbeme por WhatsApp" data-en="Message me on WhatsApp">Escríbeme por WhatsApp</span></a>
+        </div>
+        <div class="cside-links">
+          <a class="btn" href="mailto:julianaguzmancc@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg> <span data-es="Correo" data-en="Email">Correo</span></a>
+          <a class="btn" href="https://www.linkedin.com/in/juliana-guzman-c" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn" href="https://github.com/juliana-guzmanc" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn" href="CV_Juliana_Guzman.pdf" target="_blank" rel="noopener">CV</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</div>
+<footer><div class="wrap">© 2026 JULIANA GUZMÁN · DATA ANALYST · SANTIAGO, CL · REMOTO / HÍBRIDO</div></footer>
+</div>
+<div class="ribbon" id="ribbonbar"><div class="ribbon-track" id="ribbon"></div></div>
+
+<div class="modal" id="pmodal" onclick="closeProj()"><div class="modal-card" id="modal-body" onclick="event.stopPropagation()"></div></div>
+<div class="lb" id="lb"><img src="" alt=""></div>
+
+<script>
+var PROJECTS=[
+ {id:"next",num:"01",featured:true,title:"NEXT",img:"next_dashboard.png",imgs:["next_dashboard.png"],
+  tag_es:"Destacado",tag_en:"Featured",sub_es:"App de empleabilidad con IA y algoritmo de compatibilidad.",sub_en:"AI employability app with a matching algorithm.",
+  objetivo_es:"Que las mujeres que cuidan encuentren trabajos flexibles que de verdad calcen con su vida.",objetivo_en:"Help women caregivers find flexible jobs that truly fit their lives.",
+  desc_es:"App web que conecta a mujeres que cuidan con trabajos flexibles. La construí de punta a punta: algoritmo de compatibilidad, ingesta por web scraping, recomendaciones con IA y dashboard en Looker Studio.",
+  desc_en:"A web app connecting women caregivers with flexible jobs. Built end to end: matching algorithm, web-scraping ingestion, AI recommendations and a Looker Studio dashboard.",
+  feats_es:["Desarrollo web de punta a punta con Google Apps Script, JavaScript y HTML/CSS, y despliegue del sitio en Vercel.","Algoritmo de compatibilidad laboral de 4 factores ponderados, con tiempos de traslado en transporte público (Google Maps API).","Web scraping para automatizar la recolección de ofertas públicas de la Bolsa Nacional de Empleo.","Modelo de datos anonimizado y analítica del embudo de postulación, con visualización en Looker Studio.","Integración de Gemini API para generar recomendaciones de capacitación.","Seguridad y privacidad: control de acceso por roles y selección ciega."],
+  feats_en:["End-to-end web development with Google Apps Script, JavaScript and HTML/CSS, plus site deployment on Vercel.","4-factor weighted job-matching algorithm, including public-transport commute times (Google Maps API).","Web scraping to automate collection of public job offers from Chile's National Employment Board.","Anonymized data model and application-funnel analytics, visualized in Looker Studio.","Gemini API integration to generate training recommendations.","Security & privacy: role-based access control and blind selection."],
+  result_es:"producto real, publicado y en uso, construido de punta a punta por mí.",result_en:"a real product, published and in use, built end to end by me.",
+  stack:["Google Apps Script","JavaScript","HTML/CSS","Google Sheets","Looker Studio","Gemini API","Google Maps API","GitHub","Vercel"],
+  links:[{label_es:"Probar app real ↗",label_en:"Try the real app ↗",href:"https://nextgooglesitescodigo-1-git-main-juliana-guzmanc.vercel.app/",solid:true},{label_es:"Ver demo guiada",label_en:"Guided demo",href:"#proyectos",demo:true},{label_es:"Ver código",label_en:"View code",href:"https://github.com/juliana-guzmanc"},{label_es:"Abrir app web ↗",label_en:"Open web app ↗",href:"https://script.google.com/macros/s/AKfycbyUH1UnlGQHWhiQLKdsk2mW2OIcYxH-3DFhZ--J4TdyM3edEanLIB71J_bSv2UW0TpC/exec"}]},
+ {id:"nexis",num:"02",title:"NEXIS",img:"nexis_resumen-2.png",imgs:["nexis_resumen-2.png","nexis_simulador-6.png"],
+  tag_es:"Power BI",tag_en:"Power BI",sub_es:"Control financiero, flujo de caja y simulador de escenarios.",sub_en:"Financial control, cash flow and scenario simulator.",
+  objetivo_es:"Dar visibilidad financiera a una consultora B2B con operaciones en 4 países para anticipar riesgos de liquidez.",objetivo_en:"Give financial visibility to a B2B consultancy in 4 countries to anticipate liquidity risks.",
+  desc_es:"Sistema de control financiero para una consultora B2B con operaciones en Chile, Perú, Colombia y USA. Monitorea ingresos vs. presupuesto, EBITDA, liquidez y proyecciones.",
+  desc_en:"Financial control system for a B2B consultancy in Chile, Peru, Colombia and the USA. Tracks revenue vs. budget, EBITDA, liquidity and projections.",
+  feats_es:["8 páginas con navegación: Resumen, Tendencias, Segmentos, Simulador, Flujo y Geográfico.","Simulador What-If: ajusta costos y retrasos de cobro y ve el impacto en EBITDA y caja.","KPIs: Ingresos $8,22 mill · EBITDA $5,46 mill."],
+  feats_en:["8 navigable pages: Summary, Trends, Segments, Simulator, Cash Flow and Geographic.","What-If simulator: adjust costs and collection delays, see the impact on EBITDA and cash.","KPIs: Revenue $8.22M · EBITDA $5.46M."],
+  result_es:"anticipa un déficit de caja antes de que ocurra.",result_en:"anticipates a cash deficit before it happens.",stack:["Power BI","DAX","Power Query"]},
+ {id:"retail",num:"03",title:"Gestión Operativa Retail",img:"retail-2.png",imgs:["retail-2.png","retail-3.png"],
+  tag_es:"Power BI",tag_en:"Power BI",sub_es:"Ventas, costos y márgenes de 4 sucursales en un panel.",sub_en:"Sales, costs and margins of 4 stores in one panel.",
+  objetivo_es:"Unificar en un solo lugar las ventas y márgenes de 4 sucursales antes revisadas en planillas separadas.",objetivo_en:"Unify in one place the sales and margins of 4 stores previously in separate spreadsheets.",
+  desc_es:"Reporte que consolida ventas, costos y márgenes de una red retail de 4 sucursales, con navegación entre el consolidado y cada local.",
+  desc_en:"Report consolidating sales, costs and margins across a 4-store retail network, navigating between the consolidated view and each store.",
+  feats_es:["Venta total $428 mill · margen bruto 42,7%.","Comparativo por sucursal, categoría y mes."],feats_en:["Total sales $428M · gross margin 42.7%.","Comparison by store, category and month."],
+  result_es:"de planillas sueltas a un panel único para decidir por sucursal.",result_en:"from scattered spreadsheets to a single panel to decide per store.",stack:["Power BI","Power Query","DAX"]},
+ {id:"ferreteria",num:"04",title:"Control Comercial Ferretero",img:"ferreteria-2.png",imgs:["ferreteria-2.png","ferreteria-3.png"],
+  tag_es:"Power BI",tag_en:"Power BI",sub_es:"Ventas y márgenes por categoría, vendedor y comuna.",sub_en:"Sales and margins by category, salesperson and district.",
+  objetivo_es:"Entender qué categorías, vendedores y comunas sostienen el margen comercial.",objetivo_en:"Understand which categories, salespeople and districts sustain the margin.",
+  desc_es:"Dashboard comercial para una ferretería: ventas, márgenes y desempeño por categoría, vendedor y comuna, con análisis de nicho.",
+  desc_en:"Commercial dashboard for a hardware store: sales, margins and performance by category, salesperson and district, with niche analysis.",
+  feats_es:["Ventas $988 mill · margen $456 mill.","Análisis de nicho por categoría y vendedor."],feats_en:["Sales $988M · margin $456M.","Niche analysis by category and salesperson."],
+  result_es:"identifica qué categorías y vendedores sostienen el margen.",result_en:"identifies which categories and salespeople sustain the margin.",stack:["Power BI","DAX","Power Query"]},
+ {id:"rutapyme",num:"05",title:"RutaPyme",img:"rutapyme.png",imgs:["rutapyme.png"],
+  tag_es:"Looker + App",tag_en:"Looker + App",sub_es:"Logística y trazabilidad de despachos para PyMEs.",sub_en:"Logistics & delivery tracking for small businesses.",
+  objetivo_es:"Dejar de perder el rastro de los despachos de una PyME y poder medir las entregas.",objetivo_en:"Stop losing track of a small business's deliveries and measure them.",
+  desc_es:"Automaticé la trazabilidad de despachos de una PyME con Apps Script y Google Sheets, y creé un panel de KPIs logísticos en Looker Studio.",
+  desc_en:"I automated delivery tracking for a small business with Apps Script and Google Sheets, and built a logistics KPI panel in Looker Studio.",
+  feats_es:["Despachos por cliente, comuna y estado de entrega.","Mapa geográfico y embudo de entregas."],feats_en:["Deliveries by client, district and status.","Geographic map and delivery funnel."],
+  result_es:"cada despacho queda registrado y medible en un solo tablero.",result_en:"every delivery is logged and measurable in a single dashboard.",stack:["Google Sheets","Apps Script","Looker Studio"],
+  links:[{label_es:"Ver proyecto",label_en:"View project",href:"https://beacons.ai/rutapyme"}]}
+];
+var lang="es";
+function tt(o,f){var v=o[f+"_"+lang];return v!=null?v:o[f+"_es"];}
+function renderGrid(){var g=document.getElementById("pgrid");if(!g)return;var h="";
+  PROJECTS.forEach(function(p){h+='<div class="pcard" onclick="openProj(\''+p.id+'\')"><div class="pc-img"><img src="'+p.img+'" alt="'+p.title+'"></div><div class="pc-body"><div class="pc-top"><span class="pnum">'+p.num+'</span><span class="badge'+(p.featured?' g':'')+'">'+tt(p,"tag")+'</span></div><h3>'+p.title+'</h3><div class="pc-sub">'+tt(p,"sub")+'</div><div class="pc-stack">'+p.stack.slice(0,4).map(function(s){return '<span>'+s+'</span>';}).join('')+'</div><div class="pc-more">'+(lang==="es"?"VER DETALLE →":"VIEW DETAIL →")+'</div></div></div>';});
+  h+='<a class="pcard cta" href="#contacto"><div><div class="cta-q">'+(lang==="es"?"¿El siguiente?":"What is next?")+'</div><p>'+(lang==="es"?"Disponible para nuevos proyectos de datos y BI.":"Available for new data & BI projects.")+'</p><span class="cta-link">'+(lang==="es"?"Hablemos →":"Let us talk →")+'</span></div></a>';
+  g.innerHTML=h;}
+var openId=null;
+function openProj(id){var p=null;PROJECTS.forEach(function(x){if(x.id===id)p=x;});if(!p)return;openId=id;
+  var imgs=(p.imgs||[p.img]).map(function(s){return '<img src="'+s+'" alt="'+p.title+'" class="mimg" onclick="event.stopPropagation();openLB(\''+s+'\')">';}).join('');
+  var feats=tt(p,"feats").map(function(f){return '<li>'+f+'</li>';}).join('');
+  var links=(p.links||[]).map(function(l){if(l.demo)return '<button class="btn ghost" onclick="closeProj();openDemo()">'+(lang==="es"?l.label_es:l.label_en)+'</button>';var local=l.href.charAt(0)==="#";return '<a class="btn '+(l.solid?"solid":"ghost")+'" href="'+l.href+'"'+(local?' onclick="closeProj()"':' target="_blank" rel="noopener"')+'>'+(lang==="es"?l.label_es:l.label_en)+'</a>';}).join('');
+  document.getElementById("modal-body").innerHTML='<button class="mclose" onclick="closeProj()">✕</button><div class="m-top"><span class="pnum">'+p.num+'</span><span class="badge'+(p.featured?' g':'')+'">'+tt(p,"tag")+'</span></div><h2>'+p.title+'</h2><div class="m-sub">'+tt(p,"sub")+'</div><p class="m-desc">'+tt(p,"desc")+'</p><div class="m-gallery">'+imgs+'</div><h4>'+(lang==="es"?"Objetivo":"Goal")+'</h4><p class="m-desc">'+tt(p,"objetivo")+'</p><h4>'+(lang==="es"?"Mi aporte":"My contribution")+'</h4><ul class="feats">'+feats+'</ul><h4>'+(lang==="es"?"Resultado":"Result")+'</h4><div class="result">'+tt(p,"result")+'</div><h4>'+(lang==="es"?"Herramientas":"Tools")+'</h4><div class="tags">'+p.stack.map(function(s){return '<span>'+s+'</span>';}).join('')+'</div>'+(links?'<div class="btns">'+links+'</div>':'');
+  document.getElementById("pmodal").classList.add("open");document.getElementById("modal-body").scrollTop=0;document.body.style.overflow="hidden";}
+function closeProj(){openId=null;document.getElementById("pmodal").classList.remove("open");document.body.style.overflow="";}
+function openDemo(){document.getElementById("demooverlay").classList.add("open");document.body.style.overflow="hidden";go("s-login");}
+function closeDemo(){document.getElementById("demooverlay").classList.remove("open");document.body.style.overflow="";}
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeProj();closeDemo();document.getElementById("lb").classList.remove("open");}});
+renderGrid();
+
+var OFFERS=[
+ {id:0,t:"Asistente administrativa",m:"Part-time · Híbrido · Maipú · 6 min",pct:92,c:"#0C8079",b:[["Habilidades",95],["Experiencia",88],["Ubicación",98],["Disponibilidad",90]],gap:"Te falta: Power BI básico.",tip:"Te sugerimos el curso gratis «Power BI desde cero» (4 h). Con eso tu compatibilidad sube a ~96%."},
+ {id:1,t:"Recepcionista clínica",m:"Por turnos · Presencial · Ñuñoa · 18 min",pct:84,c:"#0C8079",b:[["Habilidades",86],["Experiencia",80],["Ubicación",82],["Disponibilidad",88]],gap:"Te falta: atención de público en salud.",tip:"Un curso corto de «Atención al usuario en salud» (6 h) te deja lista."},
+ {id:2,t:"Ingreso de datos (data entry)",m:"Remoto · Jornada parcial",pct:78,c:"#B5842E",b:[["Habilidades",90],["Experiencia",70],["Ubicación",100],["Disponibilidad",60]],gap:"Mejora: disponibilidad horaria.",tip:"Si amplías tu disponibilidad a las tardes, sube a ~85%."},
+ {id:3,t:"Cajera comercio",m:"Part-time · Presencial · La Florida · 23 min",pct:71,c:"#B5842E",b:[["Habilidades",78],["Experiencia",82],["Ubicación",58],["Disponibilidad",75]],gap:"Mejora: la distancia es algo alta.",tip:"Hay 2 ofertas similares más cerca de Maipú."}
+];
+function ringbg(p,c){return 'conic-gradient('+c+' '+(p*3.6)+'deg,#eee 0)';}
+function renderOffers(){var h='';OFFERS.forEach(function(o){h+='<div class="offer" onclick="openOffer('+o.id+')"><div class="ring" style="background:'+ringbg(o.pct,o.c)+'"><div style="width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center">'+o.pct+'%</div></div><div><div class="t">'+o.t+'</div><div class="m">'+o.m+'</div></div></div>';});document.getElementById("offer-list").innerHTML=h;}
+function openOffer(id){var o=OFFERS[id];document.getElementById("d-ring").textContent=o.pct+"%";document.getElementById("d-title").textContent=o.t;document.getElementById("d-meta").textContent=o.m;var b="";o.b.forEach(function(x){b+='<div class="brk"><span>'+x[0]+'</span><span>'+x[1]+'%</span></div><div class="bar"><i style="width:'+x[1]+'%"></i></div>';});b+='<div class="chipflex">✓ Jornada compatible</div><div class="chipflex">✓ Cerca de ti</div>';document.getElementById("d-breakdown").innerHTML=b;document.getElementById("d-tiptext").textContent=o.gap+" "+o.tip;document.getElementById("d-tip").classList.remove("on");go("s-detail");}
+function showTip(){document.getElementById("d-tip").classList.add("on");}
+function go(id){document.querySelectorAll(".scr").forEach(function(s){s.classList.remove("on");});var sc=document.getElementById(id);if(!sc)return;sc.classList.add("on");sc.scrollTop=0;if(id==="s-home")renderOffers();}
+renderOffers();
+
+function countUp(el){var target=+el.getAttribute("data-count"),t0=null,dur=1100;function step(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1);el.textContent=Math.floor(p*target).toLocaleString("es-CL");if(p<1)requestAnimationFrame(step);else el.textContent=target.toLocaleString("es-CL");}requestAnimationFrame(step);}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){countUp(e.target);io.unobserve(e.target);}});},{threshold:.4});
+document.querySelectorAll("[data-count]").forEach(function(el){io.observe(el);});
+
+var lb=document.getElementById("lb"),lbimg=lb.querySelector("img");
+function openLB(src){lbimg.src=src;lb.classList.add("open");}
+lb.addEventListener("click",function(){lb.classList.remove("open");lbimg.src="";});
+
+var cform=document.getElementById("cform");
+if(cform)cform.addEventListener("submit",function(e){e.preventDefault();var f=e.target;var asun=f.asunto.value||(lang==="es"?"Contacto":"Contact");var subj=encodeURIComponent("[Portafolio] "+asun+" — "+f.nombre.value);var body=encodeURIComponent((lang==="es"?"Nombre: ":"Name: ")+f.nombre.value+"\nEmail: "+f.email.value+"\n\n"+f.mensaje.value);window.location.href="mailto:julianaguzmancc@gmail.com?subject="+subj+"&body="+body;});
+
+try{localStorage.removeItem("jg-theme");}catch(e){}document.documentElement.removeAttribute("data-theme");/* tema fijo: negro */
+
+var langBtn=document.getElementById("lang");
+function setLang(l){lang=l;document.documentElement.lang=l;langBtn.textContent=l==="es"?"EN":"ES";
+  document.querySelectorAll("[data-es]").forEach(function(el){var v=l==="es"?el.getAttribute("data-es"):el.getAttribute("data-en");if(v!=null)el.innerHTML=v;});
+  document.querySelectorAll("[data-ph-es]").forEach(function(el){el.placeholder=l==="es"?el.getAttribute("data-ph-es"):el.getAttribute("data-ph-en");});
+  renderGrid();if(openId)openProj(openId);try{localStorage.setItem("jg-lang",l);}catch(e){}}
+var sl;try{sl=localStorage.getItem("jg-lang");}catch(e){}
+setLang(sl==="en"?"en":"es");
+langBtn.addEventListener("click",function(){setLang(lang==="es"?"en":"es");});
+
+(function(){var items=["Abierta a nuevos desafíos","Analista de Datos","Business Intelligence","Power BI · Looker Studio","Automatización de datos","SQL · Python","Santiago, CL"];var one=items.map(function(t){return '<span>'+t+'</span><span>—</span>';}).join('');var r=document.getElementById("ribbon");if(r)r.innerHTML=one+one;})();
+
+var SPY=["inicio","sobre","proyectos","experiencia","contacto"];
+var slider=document.getElementById("slider");
+var cur=0;
+function isMobile(){return window.innerWidth<=960;}
+function overlayOpen(){return document.getElementById("demooverlay").classList.contains("open")||document.getElementById("pmodal").classList.contains("open")||document.getElementById("lb").classList.contains("open");}
+function updateUI(){
+  document.querySelectorAll(".sb-link").forEach(function(a){a.classList.toggle("active",a.getAttribute("href")==="#"+SPY[cur]);});
+  var nc=document.getElementById("nc-num");if(nc)nc.textContent=("0"+(cur+1)).slice(-2);
+  var pf=document.getElementById("progressfill");if(pf)pf.style.width=((cur+1)/SPY.length*100)+"%";
+  var rb=document.getElementById("ribbonbar");if(rb)rb.classList.toggle("show",SPY[cur]==="contacto");
+}
+function goSlide(n){cur=Math.max(0,Math.min(SPY.length-1,n));
+  if(slider&&!isMobile()){slider.scrollTo({left:cur*slider.clientWidth,behavior:"smooth"});}
+  else{var el=document.getElementById(SPY[cur]);if(el)el.scrollIntoView({behavior:"smooth"});}
+  updateUI();}
+function goTo(id){var i=SPY.indexOf(id);if(i>=0)goSlide(i);}
+updateUI();
+window.addEventListener("resize",function(){if(slider&&!isMobile())slider.scrollLeft=cur*slider.clientWidth;});
+document.addEventListener("keydown",function(e){var tag=(e.target.tagName||"").toLowerCase();if(tag==="input"||tag==="textarea")return;if(overlayOpen())return;
+  if(e.key==="ArrowRight"||e.key==="ArrowDown"||e.key==="PageDown"){e.preventDefault();goSlide(cur+1);}
+  else if(e.key==="ArrowLeft"||e.key==="ArrowUp"||e.key==="PageUp"){e.preventDefault();goSlide(cur-1);}
+});
+var wheelLock=false;
+window.addEventListener("wheel",function(e){
+  if(isMobile()||overlayOpen())return;
+  var el=document.getElementById(SPY[cur]);
+  if(el&&el.scrollHeight>el.clientHeight+4){var atTop=el.scrollTop<=0,atBot=el.scrollTop+el.clientHeight>=el.scrollHeight-4;if((e.deltaY>0&&!atBot)||(e.deltaY<0&&!atTop))return;}
+  if(wheelLock||Math.abs(e.deltaY)<8)return;wheelLock=true;setTimeout(function(){wheelLock=false;},720);
+  goSlide(cur+(e.deltaY>0?1:-1));
+},{passive:true});
+document.addEventListener("click",function(e){var a=e.target.closest('a[href^="#"]');if(!a)return;var id=a.getAttribute("href").slice(1);if(SPY.indexOf(id)>=0){e.preventDefault();goTo(id);}},false);
+
+var AC=window.AudioContext||window.webkitAudioContext,actx=null,muted=false;
+try{muted=localStorage.getItem("jg-mute")==="1";}catch(e){}
+function ac(){try{if(!actx&&AC)actx=new AC();if(actx&&actx.state==="suspended")actx.resume();}catch(e){}return actx;}
+function blip(f,d,t,v){var c=ac();if(!c||muted)return;try{var o=c.createOscillator(),g=c.createGain();o.type=t||"sine";o.frequency.value=f;o.connect(g);g.connect(c.destination);var n=c.currentTime;g.gain.setValueAtTime(.0001,n);g.gain.exponentialRampToValueAtTime(v||.1,n+.004);g.gain.exponentialRampToValueAtTime(.0001,n+(d||.08));o.start(n);o.stop(n+(d||.08)+.03);}catch(e){}}
+function sClick(){blip(680,.07,"triangle",.10);blip(1320,.03,"sine",.045);}
+function sHover(){blip(920,.022,"sine",.028);}
+function sOk(){blip(640,.1,"sine",.09);setTimeout(function(){blip(960,.16,"sine",.09);},95);}
+var CLICKSEL=".btn,.acc,.offer,.nx-btn,.back,.sb-link,.pcard,.mclose,.mimg";
+/* sonido eliminado del portafolio */
+</script>
+</body>
+</html>
